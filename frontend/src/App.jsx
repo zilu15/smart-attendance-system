@@ -1,122 +1,155 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+
+import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [role, setRole] = useState("student");
+  
+const [apiStatus, setApiStatus] = useState("Checking backend...");
+const [databaseStatus, setDatabaseStatus] = useState("Checking...");
+
+useEffect(() => {
+  fetch("http://localhost:5000/api/health")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Backend request failed");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setApiStatus(data.message);
+      setDatabaseStatus(data.database);
+    })
+    .catch(() => {
+      setApiStatus("Backend unavailable");
+      setDatabaseStatus("unknown");
+    });
+}, []);
+
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="app">
+      <header className="topbar">
+        <div className="brand">
+          <div className="brand-icon">QR</div>
+          <div>
+            <h2>AttendEase</h2>
+            <p>Smart Attendance System</p>
+          </div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <div className="user-section">
+          <div>
+            <span>{apiStatus}</span>
+            <br />
+            <small>Database: {databaseStatus}</small>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <main className="dashboard">
+        <section className="welcome">
+          <div>
+            <p className="eyebrow">SMART ATTENDANCE PLATFORM</p>
+            <h1>Welcome to AttendEase</h1>
+            <p className="welcome-text">
+              A simpler way to manage classes and track attendance
+              using secure QR codes.
+            </p>
+          </div>
+
+          <div className="welcome-icon" aria-hidden="true">
+            QR
+          </div>
+        </section>
+
+        <section className="role-section">
+          <h2>Choose your dashboard</h2>
+          <p>Select a role to preview the available features.</p>
+
+          <div className="role-switch">
+            <button
+              className={role === "student" ? "active" : ""}
+              onClick={() => setRole("student")}
+            >
+              Student
+            </button>
+
+            <button
+              className={role === "teacher" ? "active" : ""}
+              onClick={() => setRole("teacher")}
+            >
+              Teacher
+            </button>
+          </div>
+        </section>
+
+        {role === "student" ? (
+          <section className="feature-grid">
+            <article className="feature-card">
+              <div className="feature-icon purple">▦</div>
+              <h3>Scan QR Code</h3>
+              <p>
+                Scan your teacher's active QR code to mark your
+                attendance for a class.
+              </p>
+              <button
+                className="primary-button"
+                onClick={() =>
+                  alert("QR scanning will be added in a later step.")
+                }
+              >
+                Scan attendance QR
+              </button>
+            </article>
+
+            <article className="feature-card">
+              <div className="feature-icon green">✓</div>
+              <h3>My Attendance</h3>
+              <p>
+                View your attendance records and monitor your
+                attendance percentage.
+              </p>
+              <span className="coming-soon">Coming soon</span>
+            </article>
+          </section>
+        ) : (
+          <section className="feature-grid">
+            <article className="feature-card">
+              <div className="feature-icon purple">＋</div>
+              <h3>Create Class Session</h3>
+              <p>
+                Select a course and create an attendance session
+                with a time-limited QR code.
+              </p>
+              <button
+                className="primary-button"
+                onClick={() =>
+                  alert("Class session creation will be added later.")
+                }
+              >
+                Create session
+              </button>
+            </article>
+
+            <article className="feature-card">
+              <div className="feature-icon green">▤</div>
+              <h3>Attendance Reports</h3>
+              <p>
+                Review class attendance records and track student
+                participation.
+              </p>
+              <span className="coming-soon">Coming soon</span>
+            </article>
+          </section>
+        )}
+
+        <footer>
+          AttendEase · Smart Attendance Tracking System
+        </footer>
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
