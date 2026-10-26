@@ -1,0 +1,6 @@
+# AttendEase GCP Infrastructure Deployment Configuration
+project_id  = "your-gcp-project-id"
+region      = "asia-south1"
+environment = "production"
+db_password = "AttendEase_Postgres_2026_Secure"
+jwt_secret  = "attendease_jwt_production_secret_key_2026"

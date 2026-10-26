@@ -273,3 +273,25 @@ footer {
     padding: 23px;
   }
 }
+
+
+.attendance-qr {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.attendance-qr h2 {
+  margin: 0 0 12px;
+}
+
+.qr-code-container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  margin: 16px auto;
+  background: #ffffff;
+  border: 1px solid #e5e7f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
