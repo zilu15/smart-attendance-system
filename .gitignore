@@ -13,3 +13,7 @@ ml-service/.venv/
 # Python cache
 __pycache__/
 *.pyc
+# Google Cloud credentials
+key.json
+*-key.json
+gcp-key.json
