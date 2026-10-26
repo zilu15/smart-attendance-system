@@ -1,0 +1,10 @@
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Python virtual environment
+ml-service/.venv/
+
+# Dependencies
+node_modules/
