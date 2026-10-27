@@ -1,6 +1,12 @@
-# AttendEase GCP Infrastructure Deployment Configuration
-project_id  = "your-gcp-project-id"
+
+# AttendEase GCP Infrastructure Configuration
+# Copy to terraform.tfvars locally and fill in secure values.
+# Never commit terraform.tfvars or real secrets to GitHub.
+
+project_id  = "my-first-project-504508"
 region      = "asia-south1"
 environment = "production"
-db_password = "AttendEase_Postgres_2026_Secure"
-jwt_secret  = "attendease_jwt_production_secret_key_2026"
+
+# Replace these placeholders with secure values locally.
+db_password = "REPLACE_WITH_SECURE_DATABASE_PASSWORD"
+jwt_secret  = "REPLACE_WITH_SECURE_JWT_SECRET"

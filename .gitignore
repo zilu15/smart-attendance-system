@@ -17,3 +17,15 @@ __pycache__/
 key.json
 *-key.json
 gcp-key.json
+
+# Terraform local configuration and secrets
+terraform/terraform.tfvars
+terraform/*.tfvars
+!terraform/*.tfvars.example
+
+# Terraform state and working files
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/.terraform/
+terraform/crash.log
+terraform/crash.*.log
