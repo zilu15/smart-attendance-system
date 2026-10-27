@@ -80,40 +80,37 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Authenticate to Google Cloud
-        if: ${{ secrets.GCP_SA_KEY != '' }}
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Set up Cloud SDK
-        if: ${{ secrets.GCP_SA_KEY != '' }}
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure Docker for Artifact Registry
-        if: ${{ secrets.GCP_SA_KEY != '' }}
         run: |
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
-      # Build Docker Images
-      - name: Build Backend Docker Image
+      # Build & Push Docker Images
+      - name: Build and Push Backend Docker Image
         uses: docker/build-push-action@v5
         with:
           context: ./backend
-          push: ${{ secrets.GCP_SA_KEY != '' }}
+          push: true
           tags: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/backend:${{ github.sha }},${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/backend:latest
 
-      - name: Build Frontend Docker Image
+      - name: Build and Push Frontend Docker Image
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
-          push: ${{ secrets.GCP_SA_KEY != '' }}
+          push: true
           tags: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/frontend:${{ github.sha }},${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/frontend:latest
 
-      - name: Build ML Service Docker Image
+      - name: Build and Push ML Service Docker Image
         uses: docker/build-push-action@v5
         with:
           context: ./ml-service
-          push: ${{ secrets.GCP_SA_KEY != '' }}
+          push: true
           tags: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/ml-service:${{ github.sha }},${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/ml-service:latest
 
   # -------------------------------------------------------------
@@ -123,7 +120,7 @@ jobs:
     name: Deploy to Cloud Run
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && secrets.GCP_SA_KEY != ''
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout Code
