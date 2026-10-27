@@ -137,6 +137,7 @@ jobs:
           service: attendease-ml-service
           image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/ml-service:latest
           region: ${{ env.REGION }}
+          flags: '--allow-unauthenticated'
 
       - name: Deploy Backend to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
@@ -144,6 +145,7 @@ jobs:
           service: attendease-backend
           image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/backend:latest
           region: ${{ env.REGION }}
+          flags: '--allow-unauthenticated'
 
       - name: Deploy Frontend to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
@@ -151,3 +153,4 @@ jobs:
           service: attendease-frontend
           image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/frontend:latest
           region: ${{ env.REGION }}
+          flags: '--allow-unauthenticated'
